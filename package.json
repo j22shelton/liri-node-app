@@ -16,5 +16,11 @@
   "bugs": {
     "url": "https://github.com/j22shelton/liri-node-app/issues"
   },
-  "homepage": "https://github.com/j22shelton/liri-node-app#readme"
+  "homepage": "https://github.com/j22shelton/liri-node-app#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "fs": "0.0.1-security",
+    "moment": "^2.24.0",
+    "node-spotify-api": "^1.1.1"
+  }
 }

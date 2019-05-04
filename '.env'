@@ -1,7 +1,4 @@
-```js
-# Spotify API keys
 
-SPOTIFY_ID=your-spotify-id
-SPOTIFY_SECRET=your-spotify-SPOTIFY_SECRET
+SPOTIFY_ID=1a1f903c09c24c87955e664fd2bc31d6
+SPOTIFY_SECRET=1e20f0a6efed4f46b220cb021386231b
 
-```
