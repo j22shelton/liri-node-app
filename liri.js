@@ -1,12 +1,11 @@
 require("dotenv").config();
 debugger;
 var keys = require("./keys.js"); 
-var spotify = new Spotify(keys.spotify);
 var fs = require("fs");
 var Spotify = require('node-spotify-api');
+var spotify = new Spotify(keys.spotify);
 var axios = require("axios");
 var moment = require("moment");
-var functions = require("./functions.js");
 var command = process.argv[2];
 var query = process.argv.slice(3).join(" ");
 
@@ -32,18 +31,20 @@ function userInfo() {
         functions.searchConcert(apiURL, query);
         
 	} else if (command === "spotify-this-song") {
-        var apiURL = "http://www.spotify.com=" + query + "1e20f0a6efed4f46b220cb021386231b";
-        functions.searchSong(apiURL, query);
-        if(trackQuery === undefined) {
-            trackQuery = "Ace of Base, The Sign";
-        }
-        
-	} else if (command === "movie-this") {
-        var apiURL = "http://www.omdbapi.com/?t=" + query + "&y=&plot=short&apikey=trilogy";
-        functions.searchMovie(apiURL, query);
-        if(movieQuery === undefined) {
-            movieQuery = "Mr Nobody";
-        }
+        limit = 10;
+		if (!inputDetail) {
+			inputDetail = "Ace of Base The Sign";
+			limit = 1;
+		}
+        functions.searchSong(inputDetail, limit);
+
+    } else if (command === "movie-this") {
+		if (!inputDetail) {
+			inputDetail = "Mr. Nobody";
+		}
+		var apiURL = "http://www.omdbapi.com/?t=" + inputDetail + "&y=&plot=short&apikey=trilogy"
+		functions.searchMovie(apiURL, inputDetail);
+
 		
 	} else {
 
