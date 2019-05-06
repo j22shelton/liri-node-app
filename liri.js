@@ -1,6 +1,5 @@
-debugger;
 require("dotenv").config();
-
+debugger;
 var keys = require("./keys.js"); 
 var spotify = new Spotify(keys.spotify);
 var fs = require("fs");
@@ -10,8 +9,6 @@ var moment = require("moment");
 var functions = require("./functions.js");
 var command = process.argv[2];
 var query = process.argv.slice(3).join(" ");
-
-
 
 
 if (command === "do-what-it-says") {
