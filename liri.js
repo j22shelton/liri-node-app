@@ -10,21 +10,8 @@ var command = process.argv[2];
 var query = process.argv.slice(3).join(" ");
 
 
-if (command === "do-what-it-says") {
-	fs.readFile("random.txt", "utf8", function(error, data) {
-		if (error) {
-			return console.log("Error: " + error);
-		}
-		var data = data.split(",");
-		command = data[0];
-		query = data[1];
-		userInfo();
-	});
-} else {
-	userInfo();
-}
-
 // Function to use user input
+
 function userInfo() {
 	if (command === "concert-this") {
 		var apiURL = "https://rest.bandsintown.com/artists/" + query + "/events?app_id=codingbootcamp";
@@ -63,7 +50,7 @@ function userInfo() {
                 var dateOfEvent = moment(response.data[i].datetime).format("MM/DD/YYYY");
                
             }
-            console.log(results.toString());
+            console.log(JSON.stringify(result, null, 2));
             logToFile(results, " concert-this ", query);
         } else {
             console.log("no events found")
@@ -87,7 +74,7 @@ function userInfo() {
                 var released = response.tracks.items[i].album.release_date;
                 
             }
-            console.log(results.toString());
+            console.log(JSON.stringify(result, null, 2));
             logToFile(results, " spotify-this-song ", query);
         } else {
             console.log("Ace of Base, The Sign")
@@ -95,6 +82,23 @@ function userInfo() {
     }).catch(function(err) {
         console.log("Error: " + err);
     });
+
+
+    if (command === "do-what-it-says") {
+    	fs.readFile("random.txt", "utf8", function(error, data) {
+		if (error) {
+			return console.log("Error: " + error);
+		}
+		var data = data.split(",");
+		command = data[0];
+		query = data[1];
+		userInfo();
+        });
+        
+    } else {
+
+	userInfo();
+}
 
 
     //functions to search movie info//
@@ -117,7 +121,7 @@ function userInfo() {
             moviePlot = response.data.Plot;
             movieActors = response.data.Actors;
 
-            console.log(results.toString());
+            console.log(JSON.stringify(result, null, 2));
             
         }
 
