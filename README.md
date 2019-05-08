@@ -34,4 +34,4 @@ The program also reads from a file called "random.text" and executes the command
      alt="spotifypic"
      style="float: left; margin-right: 10px;" />
 
-![](/images/spotify.png?raw=true)
+![](/images/Spotify.png?raw=true)
