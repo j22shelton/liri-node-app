@@ -8,14 +8,15 @@ var axios = require("axios");
 var moment = require("moment");
 var command = process.argv[2];
 var query = process.argv.slice(3).join(" ");
-
+var apiURL 
+var inputDetail = process.argv[3];
 
 // Function to use user input
 
 function userInfo() {
 	if (command === "concert-this") {
-		var apiURL = "https://rest.bandsintown.com/artists/" + query + "/events?app_id=codingbootcamp";
-        functions.searchConcert(apiURL, query);
+		apiURL = "https://rest.bandsintown.com/artists/" + inputDetail + "/events?app_id=codingbootcamp";
+        searchConcert(apiURL, query);
         
 	} else if (command === "spotify-this-song") {
         limit = 10;
@@ -23,14 +24,14 @@ function userInfo() {
 			inputDetail = "Ace of Base The Sign";
 			limit = 1;
 		}
-        functions.searchSong(inputDetail, limit);
+        searchSong(inputDetail, limit);
 
     } else if (command === "movie-this") {
 		if (!inputDetail) {
 			inputDetail = "Mr. Nobody";
 		}
-		var apiURL = "http://www.omdbapi.com/?t=" + inputDetail + "&y=&plot=short&apikey=trilogy"
-		functions.searchMovie(apiURL, inputDetail);
+		apiURL = "http://www.omdbapi.com/?t=" + inputDetail + "&y=&plot=short&apikey=trilogy"
+		searchMovie(apiURL, inputDetail);
 
 		
 	} else {
@@ -39,50 +40,59 @@ function userInfo() {
 		console.log("Info not found.");
 	}
 }
-    //functions to search concert info//
+   function searchConcert() {
     axios.get(apiURL).then(function(response) {
+
         var concertInfo = response.data.length;
         if (concertInfo !== 0) {
-            
+
+            var result =[]
             for (var i = 0; i < concertInfo; i++) {
-                var venueName = response.data[i].venue.name;
-                var venueLocation = response.data[i].venue.city + ", " + response.data[i].venue.country;
-                var dateOfEvent = moment(response.data[i].datetime).format("MM/DD/YYYY");
-               
+                var concert = {
+                venueName: response.data[i].venue.name,
+                venueLocation: response.data[i].venue.city + ", " + response.data[i].venue.country,
+                dateOfEvent: moment(response.data[i].datetime).format("MM/DD/YYYY"),
+                }
+                result.push(concert)
             }
-            console.log(JSON.stringify(result, null, 2));
-            logToFile(results, " concert-this ", query);
+            console.log(result);
+          
         } else {
             console.log("no events found")
         }
     });
+   }
+
 
     //functions to search Spotify info//
+    function searchSong() {
     spotify.search({
         type: 'track',
         query: query,
-        limit: limit
+        limit: 10,
     }).then(function(response) {
         var concertInfo = response.tracks.items.length;
         if (concertInfo !== 0) {
           
-          
+            var result =[]
             for (var i = 0; i < concertInfo; i++) {
-                var artist = response.tracks.items[i].artists[0].name;
-                var song = response.tracks.items[i].name;
-                var album = response.tracks.items[i].album.name;
-                var released = response.tracks.items[i].album.release_date;
-                
+                var music = {
+                artist: response.tracks.items[i].artists[0].name,
+                song: response.tracks.items[i].name,
+                album: response.tracks.items[i].album.name,
+                released: response.tracks.items[i].album.release_date,
+                }
+                result.push(music)
             }
-            console.log(JSON.stringify(result, null, 2));
-            logToFile(results, " spotify-this-song ", query);
+            console.log(result);
+            // logToFile(results, " spotify-this-song ", query);
         } else {
             console.log("Ace of Base, The Sign")
         }
     }).catch(function(err) {
         console.log("Error: " + err);
     });
-
+}
 
     if (command === "do-what-it-says") {
     	fs.readFile("random.txt", "utf8", function(error, data) {
@@ -102,10 +112,10 @@ function userInfo() {
 
 
     //functions to search movie info//
+    function searchMovie() {
     axios.get(apiURL).then(function(response) {
        
   
-        });
         if (response.data.Response !== "False") {
             movieTitle = response.data.Title;
             movieYear = response.data.Year;
@@ -121,7 +131,8 @@ function userInfo() {
             moviePlot = response.data.Plot;
             movieActors = response.data.Actors;
 
-            console.log(JSON.stringify(result, null, 2));
+            console.log(movieTitle, movieYear, imdbRating, tomatoesRating, movieCountry, movieLanguage, moviePlot, movieActors);
             
         }
-
+    });
+    }
