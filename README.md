@@ -28,4 +28,4 @@ The program also makes a HTTP request to the OMDb API using the request NPM modu
 
 The program also reads from a file called "random.text" and executes the command found there.
 
-![SpotifyImage](spotify.png)
+![SpotifyImage](images/spotify.png)
