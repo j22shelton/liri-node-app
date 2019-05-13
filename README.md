@@ -28,6 +28,8 @@ The program also makes a HTTP request to the OMDb API using the request NPM modu
 
 The program also reads from a file called "random.text" and executes the command found there.
 
+Please clone the following link to run the app:
+https://github.com/j22shelton/liri-node-app.git
 
 
 ![](/images/Spotify.png?raw=true)
